@@ -1,0 +1,176 @@
+% Para el glosario
+\immediate\write18{makeindex \jobname.nlo -s nomencl.ist -o \jobname.nls}
+
+% Cambiar la siguiente línea a oneside para versión online
+\documentclass[12pt,twoside]{book}
+
+% Fuentes y codificación
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{mathrsfs} %* Proporciona un comando \mathscr, en lugar de
+                      %* sobrescribir el comando estándar \mathcal, como en
+                      %* calrsfs.
+
+% Formato de papel y marcas de cortado
+\usepackage[letter,center,pdflatex]{crop} %* Agregar la opción cam para marcas
+                                          %* de cortado (crop marks)
+\usepackage{geometry}
+  \geometry{
+    paperwidth=17.409cm,
+    paperheight=23.665cm,
+    textheight=19.274cm,
+    textwidth=13.998cm,
+    right=1.2cm, % comentar para versión online
+    includehead
+  }
+
+% Idioma
+\usepackage[spanish,mexico]{babel}
+
+% AMS-LaTeX
+\usepackage{amsmath,amssymb} % Símbolos matemáticos
+\usepackage{amsthm} % Entornos de teoremas
+% \usepackage{amsfonts}
+
+% Espaciado entre líneas (útil para matrices, necesario para \setstretch)
+\usepackage{setspace}
+
+% Índices
+\usepackage{imakeidx}
+
+% Inclusión de imágenes
+\usepackage{graphicx}
+
+% Encabezados y pies de Página
+\usepackage{fancyhdr}
+
+% Gestión de colores
+\usepackage{xcolor}
+
+% Creación de figuras
+\usepackage{tikz}
+  \usetikzlibrary{calc}
+% Para dibujar gráficas
+\tikzstyle{edge}=[shorten <=1pt, shorten >=1pt, >=stealth, line width=0.8pt]
+\tikzstyle{curveEdge}=[shorten <=1pt, shorten >=1pt, >=stealth, bend right=20,
+                       bend left=20, line width=1pt]
+\tikzstyle{vertex}=[circle, draw, minimum size=5pt, inner sep=0pt,
+                    outer sep=0pt]
+\tikzstyle{blackV}=[circle, fill=black, draw, minimum size=5pt, inner sep=0pt,
+                    outer sep=0pt]
+
+% Modificadores para objetos flotantes
+\usepackage{float}
+
+% Hipervínculos en referencias cruzadas
+\usepackage[hidelinks]{hyperref}
+	\providecommand\phantomsection{}
+
+% Referencias cruzadas con nombres automáticos
+\usepackage[capitalize]{cleveref}
+
+% Columnas múltiples
+\usepackage{multirow}
+
+% Formato para tablas y matrices
+\usepackage{array}
+
+% Relleno automático de texto
+\usepackage{lipsum}
+
+% Glosario de símbolos (Agregar sólo si son muchos)
+\usepackage[intoc,refpage]{nomencl}
+	\makenomenclature
+	\renewcommand{\nomname}{Glosario de símbolos}
+	\makeatletter
+		\newcommand \Dotfill {\leavevmode \cleaders \hb@xt@ .77em{\hss .\hss }\hfill \kern \z@}
+	\makeatother
+	\def\pagedeclaration#1{\Dotfill\hyperlink{page.#1}{#1}}
+	\newcommand{\nom}[2]{\nomenclature{#1}{#2}}
+	\setlength{\nomlabelwidth}{2.5cm}
+	\setlength{\nomitemsep}{0.15cm}
+\usepackage{etoolbox}
+	\renewcommand\nomgroup[1]{\item[\ifstrequal{#1}{$ $}{ }{}]}
+
+% Definición de Teoremas y relacionados
+\newtheorem{teorema}{Teorema}[chapter]
+\newtheorem{lema}[teorema]{Lema}
+\newtheorem{proposicion}[teorema]{Proposición}
+\newtheorem{corolario}[teorema]{Corolario}
+\newtheorem{conjetura}[teorema]{Conjetura}
+\newtheorem{problema}[teorema]{Problema}
+
+\theoremstyle{definition}
+\newtheorem{definicion}[teorema]{Definición}
+\newtheorem{observacion}[teorema]{Observación}
+\newtheorem{ejemplo}[teorema]{Ejemplo}
+
+% Macros para estilo de definición e indexado simultaneo
+\newcommand{\Def}[1]{\index{#1}\emph{\textbf{#1}}}
+  % Por ejemplo \Def{graph}
+\newcommand{\DeepDef}[2]{\index{#1}{\bf\em{#2}}}
+  % Por ejemplo \DeepDef{graph!bipartite graph}{bipartite
+
+% Comandos auxiliares
+\newcommand{\Pclass}{\mbox{P}}
+\newcommand{\NPclass}{\mbox{NP}}
+
+\interfootnotelinepenalty=100 % Un valor >>100 evita partir pies de página
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\makeindex[intoc]
+
+\begin{document}
+
+  \begin{hyphenrules}{spanish}
+
+    \frontmatter  % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+      \pagestyle{fancy}
+      \renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+      \renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
+      \fancyhf{}
+      \fancyhead[LE,RO]{\bfseries\thepage}
+      \fancyhead[LO]{\bfseries\rightmark}
+      \fancyhead[RE]{\bfseries\leftmark}
+      \renewcommand{\headrulewidth}{0.5pt}
+      \renewcommand{\footrulewidth}{0pt}
+      \addtolength{\headheight}{0.5pt}
+      \fancypagestyle{plain}{
+      \fancyhead{}
+      \renewcommand{\headrulewidth}{0pt}}
+
+      \include{main} % Portada y datos generales
+      \include{hojadedatos} % Datos del alumno, tutor, sinodales y del trabajo
+      \include{Agrad} % Agradecimientos
+
+      \tableofcontents{\setcounter{tocdepth}{3}}
+
+      \include{Intro} % Introducción al trabajo
+
+    \mainmatter % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+      \include{Chap0} % Introducción al área de estudio
+      \include{Chap1} % Tema 1
+      \include{Chap2} % Resultados
+      \include{Concl} % Conclusiones del trabajo
+
+    \backmatter % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+      \include{biblio}
+      	%\cleardoublepage
+      	\markboth{\MakeUppercase\nomname}{\MakeUppercase\nomname}
+      \printnomenclature
+      \printindex
+
+  \end{hyphenrules}
+
+\end{document}
